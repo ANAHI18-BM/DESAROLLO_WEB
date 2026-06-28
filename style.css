@@ -1,0 +1,288 @@
+/* ==========================
+   LINDA FASHION BOUTIQUE
+   Desarrollo de Aplicaciones Web
+========================== */
+
+body{
+    font-family:'Poppins', sans-serif;
+    background:#f8ecf0;
+    color:#444;
+}
+
+/* HEADER */
+
+header{
+    background:linear-gradient(135deg,#ff6fa5,#ff9ec4,#ffd6e7);
+    color:white;
+    padding:80px 20px;
+}
+
+header h1{
+    font-size:55px;
+    font-weight:bold;
+}
+
+header p{
+    font-size:22px;
+}
+
+/* NAVBAR */
+
+.navbar{
+    box-shadow:0px 3px 10px rgba(0,0,0,.2);
+}
+
+.nav-link{
+    font-weight:600;
+    transition:.3s;
+}
+
+.nav-link:hover{
+    color:#ffb6d9 !important;
+}
+
+/* SECCIONES */
+
+section{
+    background:white;
+    border-radius:15px;
+    padding:35px;
+    margin-top:40px;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+/* TITULOS */
+
+h2{
+    color:#d63384;
+    font-weight:bold;
+}
+
+h4{
+    color:#c2185b;
+}
+
+/* BOTONES */
+
+.btn-primary{
+    background:#d63384;
+    border:none;
+}
+
+.btn-primary:hover{
+    background:#b51763;
+}
+
+.btn-success{
+    background:#e83e8c;
+    border:none;
+}
+
+.btn-success:hover{
+    background:#c2185b;
+}
+
+.btn-light{
+    color:#d63384;
+    font-weight:bold;
+}
+
+/* TARJETAS */
+
+.card{
+    border:none;
+    border-radius:20px;
+    transition:.4s;
+}
+
+.card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0px 15px 25px rgba(0,0,0,.25);
+
+}
+
+.card img{
+
+    height:300px;
+
+    object-fit:cover;
+
+}
+
+/* IMAGEN PRINCIPAL */
+
+img{
+
+    border-radius:15px;
+
+}
+
+/* VIDEO */
+
+video{
+
+    max-width:100%;
+
+    border-radius:15px;
+
+}
+
+/* FORMULARIOS */
+
+.form-control{
+
+    border-radius:10px;
+
+}
+
+.form-control:focus{
+
+    border:2px solid #d63384;
+
+    box-shadow:none;
+
+}
+
+/* MENSAJES */
+
+#mensaje{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    color:#d63384;
+
+}
+
+/* TARJETAS DINÁMICAS */
+
+.prenda{
+
+    background:white;
+
+    border-left:8px solid #d63384;
+
+    border-radius:15px;
+
+    padding:20px;
+
+    margin-top:20px;
+
+    box-shadow:0px 5px 15px rgba(0,0,0,.15);
+
+}
+
+.prenda h5{
+
+    color:#d63384;
+
+    font-weight:bold;
+
+}
+
+.prenda p{
+
+    margin-bottom:8px;
+
+}
+
+.prenda button{
+
+    margin-top:10px;
+
+}
+
+/* ASIDE */
+
+aside{
+
+    border-radius:15px;
+
+    font-size:18px;
+
+}
+
+/* FOOTER */
+
+footer{
+
+    margin-top:50px;
+
+    background:#212529;
+
+    color:white;
+
+}
+
+footer p{
+
+    margin:5px;
+
+}
+
+/* ANIMACIÓN */
+
+section{
+
+    animation:aparecer 1s;
+
+}
+
+@keyframes aparecer{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(30px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* MEDIA QUERY */
+
+@media(max-width:768px){
+
+header h1{
+
+font-size:35px;
+
+}
+
+header p{
+
+font-size:18px;
+
+}
+
+section{
+
+padding:20px;
+
+}
+
+.card img{
+
+height:220px;
+
+}
+
+video{
+
+width:100%;
+
+}
+
+}
