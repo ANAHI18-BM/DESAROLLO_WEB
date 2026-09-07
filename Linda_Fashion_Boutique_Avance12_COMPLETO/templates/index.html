@@ -1,0 +1,395 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <!-- PORTADA / HERO -->
+    <header id="inicio" class="hero">
+        <div class="container">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-6 text-center text-lg-start">
+                    <h1 class="titulo-principal">
+                        Linda Fashion Boutique
+                    </h1>
+
+                    <p class="subtitulo">
+                        Moda femenina moderna, elegante y auténtica para mujeres que desean resaltar su estilo con confianza.
+                    </p>
+
+                    <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start mt-4">
+                        <a href="#productos" class="btn btn-rosa btn-lg">
+                            Ver colección
+                        </a>
+                        <a href="#registro" class="btn btn-light btn-lg fw-bold">
+                            Registrar prenda
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 text-center">
+                    <img src="{{ url_for('static', filename='img/mujeres.jpg') }}" alt="Moda femenina Linda Fashion Boutique" class="img-fluid hero-img">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container my-5">
+
+        <!-- ALERTA BOOTSTRAP PARA MENSAJES GENERALES (REQUISITO OBLIGATORIO) -->
+        {% with mensajes = get_flashed_messages(with_categories=true) %}
+        <div id="alertaGeneral" class="alert {% if mensajes %}alert-{{ mensajes[-1][0] }}{% else %}alert-info d-none{% endif %} alert-dismissible fade show" role="alert">
+            <span id="textoAlerta">{% if mensajes %}{{ mensajes[-1][1] }}{% endif %}</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+        {% endwith %}
+
+        <!-- BIENVENIDA -->
+        <section class="text-center p-5">
+            <h2 class="mb-4">Bienvenidas a Linda Fashion Boutique</h2>
+            <p class="mb-4">
+                Somos una boutique femenina ubicada en Shushufindi, dedicada a ofrecer prendas modernas, elegantes y accesibles.
+                Nuestro propósito es brindar una experiencia de compra única con ropa que combine estilo, comodidad y tendencia,
+                permitiendo que cada clienta encuentre la prenda ideal para cualquier ocasión.
+            </p>
+
+            <div class="row text-center mt-4 g-4">
+                <div class="col-md-4">
+                    <div class="card shadow h-100 p-3">
+                        <div class="card-body">
+                            <h4>Moda Actual</h4>
+                            <p>
+                                Prendas inspiradas en tendencias femeninas modernas, juveniles y elegantes.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card shadow h-100 p-3">
+                        <div class="card-body">
+                            <h4>Calidad y Estilo</h4>
+                            <p>
+                                Seleccionamos ropa con buen acabado, comodidad y diseños que resaltan la personalidad.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card shadow h-100 p-3">
+                        <div class="card-body">
+                            <h4>Atención Personalizada</h4>
+                            <p>
+                                Acompañamos a nuestras clientas para ayudarles a elegir prendas según su gusto y ocasión.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUIÉNES SOMOS -->
+        <section id="quienes" class="mt-5">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-6">
+                    <h2>Quiénes Somos</h2>
+                    <p>
+                        Linda Fashion Boutique nace con el propósito de resaltar la belleza, la confianza y el estilo de cada mujer
+                        mediante prendas modernas, elegantes y de excelente calidad. Nuestro compromiso es brindar atención personalizada,
+                        ofreciendo una experiencia de compra cercana, confiable y enfocada en la satisfacción de nuestras clientas.
+                    </p>
+                    <p>
+                        Aspiramos a consolidarnos como una boutique reconocida en Shushufindi por la calidad de nuestros productos,
+                        el buen servicio y la confianza que transmitimos en cada compra.
+                    </p>
+                </div>
+
+                <div class="col-lg-6 text-center">
+                    <img src="{{ url_for('static', filename='img/ropa2.jpg') }}" class="img-fluid rounded shadow" alt="Boutique de ropa femenina">
+                </div>
+            </div>
+        </section>
+
+        <!-- COLECCIÓN DESTACADA → CONTENEDOR DINÁMICO (usa tarjetas Bootstrap) -->
+        <section id="productos" class="mt-5">
+            <h2 class="text-center mb-5">Colección Destacada</h2>
+            <!-- INDICADOR DE CARGA (SPINNER BOOTSTRAP - REQUISITO OBLIGATORIO) -->
+            <div id="cargandoProductos" class="text-center my-4 d-none">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando colección...</span>
+                </div>
+                <p class="mt-2">Cargando nuestros productos...</p>
+            </div>
+            <div id="contenedorProductos" class="row g-4">
+                {% for producto in productos %}
+                {% if producto.estado == "Disponible" %}
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card shadow h-100">
+                        <img src="{{ url_for('static', filename='img/' + producto.imagen) }}" class="card-img-top" alt="{{ producto.nombre }}">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">{{ producto.nombre }}</h5>
+                            <p class="card-text">{{ producto.descripcion }}</p>
+                            <p class="precio-prenda">${{ "%.2f"|format(producto.precio) }}</p>
+                            <span class="badge bg-success">Disponible</span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% else %}
+                <div class="col-12">
+                    <div class="alert alert-info text-center">
+                        No hay productos disponibles en este momento. ¡Pronto actualizaremos nuestra colección!
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div id="mensajeSinProductos" class="alert alert-info text-center mt-4 d-none">
+                No hay productos disponibles en este momento. ¡Pronto actualizaremos nuestra colección!
+            </div>
+        </section>
+
+        <!-- BENEFICIOS -->
+        <section class="mt-5">
+            <h2 class="text-center mb-4">¿Por qué elegir Linda Fashion Boutique?</h2>
+
+            <div class="row g-4 text-center">
+                <div class="col-md-3 col-sm-6">
+                    <div class="card shadow h-100 p-3">
+                        <div class="card-body">
+                            <h4>Variedad</h4>
+                            <p>Vestidos, blusas, jeans, conjuntos, accesorios y más.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="card shadow h-100 p-3">
+                        <div class="card-body">
+                            <h4>Asesoría</h4>
+                            <p>Te ayudamos a elegir la prenda ideal según tu estilo y necesidad.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="card shadow h-100 p-3">
+                        <div class="card-body">
+                            <h4>Tendencia</h4>
+                            <p>Actualizamos nuestra colección con moda femenina actual y elegante.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="card shadow h-100 p-3">
+                        <div class="card-body">
+                            <h4>Confianza</h4>
+                            <p>Brindamos una experiencia cercana, segura y orientada a cada clienta.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIDEO -->
+        <section class="mt-5 text-center">
+            <h2 class="mb-4">Video Promocional</h2>
+            <p class="mb-4">
+                Descubre el estilo y la esencia de Linda Fashion Boutique a través de nuestra propuesta visual de moda femenina.
+            </p>
+
+            <video controls class="shadow rounded w-100" style="max-width: 700px;">
+                <source src="{{ url_for('static', filename='video/Video de ropa.mp4') }}" type="video/mp4">
+                Tu navegador no soporta el video.
+            </video>
+        </section>
+
+        <!-- REGISTRO DE PRENDAS (FORMULARIO MEJORADO CON CLASES BOOTSTRAP) -->
+        <section id="registro" class="mt-5">
+            <h2 class="text-center mb-3">Registro de Prendas</h2>
+            <p class="text-center mb-5">
+                Agrega nuevas prendas al catálogo de Linda Fashion Boutique mediante un formulario dinámico con validaciones en tiempo real.
+            </p>
+
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <div class="card shadow border-0">
+                        <div class="card-body p-4 p-md-5">
+
+                            <form id="formularioRegistro" method="POST" action="{{ url_for('index') }}" novalidate>
+                                {{ form.hidden_tag() }}
+                                <div class="row g-4">
+
+                                    <div class="col-md-6">
+                                        <label for="nombre" class="form-label fw-semibold">Nombre de la prenda</label>
+                                        <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej: Vestido floral elegante" value="{{ form.nombre.data or '' }}" required>
+                                        <div id="errorNombre" class="mensaje-validacion">{% for error in form.nombre.errors %}{{ error }}{% if not loop.last %}<br>{% endif %}{% endfor %}</div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="categoria" class="form-label fw-semibold">Categoría</label>
+                                        <select id="categoria" name="categoria" class="form-select" required>
+                                            <option value="">Seleccione una categoría</option>
+                                            <option value="Vestidos" {% if form.categoria.data == "Vestidos" %}selected{% endif %}>Vestidos</option>
+                                            <option value="Blusas" {% if form.categoria.data == "Blusas" %}selected{% endif %}>Blusas</option>
+                                            <option value="Jeans" {% if form.categoria.data == "Jeans" %}selected{% endif %}>Jeans</option>
+                                            <option value="Conjuntos" {% if form.categoria.data == "Conjuntos" %}selected{% endif %}>Conjuntos</option>
+                                            <option value="Accesorios" {% if form.categoria.data == "Accesorios" %}selected{% endif %}>Accesorios</option>
+                                        </select>
+                                        <div id="errorCategoria" class="mensaje-validacion">{% for error in form.categoria.errors %}{{ error }}{% if not loop.last %}<br>{% endif %}{% endfor %}</div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label for="descripcion" class="form-label fw-semibold">Descripción</label>
+                                        <textarea id="descripcion" name="descripcion" class="form-control" rows="4" placeholder="Describe la prenda, su estilo, color, material o uso recomendado" required>{{ form.descripcion.data or '' }}</textarea>
+                                        <div id="errorDescripcion" class="mensaje-validacion">{% for error in form.descripcion.errors %}{{ error }}{% if not loop.last %}<br>{% endif %}{% endfor %}</div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label for="talla" class="form-label fw-semibold">Talla</label>
+                                        <select id="talla" name="talla" class="form-select" required>
+                                            <option value="">Seleccione una talla</option>
+                                            <option value="XS" {% if form.talla.data == "XS" %}selected{% endif %}>XS</option>
+                                            <option value="S" {% if form.talla.data == "S" %}selected{% endif %}>S</option>
+                                            <option value="M" {% if form.talla.data == "M" %}selected{% endif %}>M</option>
+                                            <option value="L" {% if form.talla.data == "L" %}selected{% endif %}>L</option>
+                                            <option value="XL" {% if form.talla.data == "XL" %}selected{% endif %}>XL</option>
+                                        </select>
+                                        <div id="errorTalla" class="mensaje-validacion">{% for error in form.talla.errors %}{{ error }}{% if not loop.last %}<br>{% endif %}{% endfor %}</div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label for="precio" class="form-label fw-semibold">Precio ($)</label>
+                                        <input type="number" id="precio" name="precio" class="form-control" placeholder="Ej: 29.99" value="{{ form.precio.data or '' }}" min="1" step="0.01" required>
+                                        <div id="errorPrecio" class="mensaje-validacion">{% for error in form.precio.errors %}{{ error }}{% if not loop.last %}<br>{% endif %}{% endfor %}</div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label for="estado" class="form-label fw-semibold">Estado</label>
+                                        <select id="estado" name="estado" class="form-select" required>
+                                            <option value="">Seleccione el estado</option>
+                                            <option value="Disponible" {% if form.estado.data == "Disponible" %}selected{% endif %}>Disponible</option>
+                                            <option value="Agotado" {% if form.estado.data == "Agotado" %}selected{% endif %}>Agotado</option>
+                                            <option value="Próximamente" {% if form.estado.data == "Próximamente" %}selected{% endif %}>Próximamente</option>
+                                        </select>
+                                        <div id="errorEstado" class="mensaje-validacion">{% for error in form.estado.errors %}{{ error }}{% if not loop.last %}<br>{% endif %}{% endfor %}</div>
+                                    </div>
+
+                                </div>
+
+                                <div id="mensajeGeneral" class="mt-4"></div>
+
+                                <div class="text-center mt-4 d-flex gap-2 justify-content-center flex-wrap">
+                                    <button type="submit" class="btn btn-success btn-lg px-5">
+                                        Registrar prenda
+                                    </button>
+                                    <button type="reset" class="btn btn-secondary btn-lg px-5">
+                                        Limpiar campos
+                                    </button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <h4 class="fw-bold">
+                    Total de prendas registradas:
+                    <span id="total">{{ productos|length }}</span>
+                </h4>
+            </div>
+
+            <div id="listaPrendas" class="row mt-4 g-3"></div>
+        </section>
+
+        <!-- CONTACTO -->
+        <section id="contacto" class="mt-5">
+            <h2 class="text-center mb-4">Contáctanos</h2>
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card shadow h-100 border-0">
+                        <div class="card-body p-4">
+                            <h4 class="mb-3">Información de contacto</h4>
+                            <p><strong>Correo:</strong> fashionshushufindi@gmail.com</p>
+                            <p><strong>Teléfono:</strong> 0991234567</p>
+                            <p><strong>Dirección:</strong> Shushufindi - Sucumbíos</p>
+                            <p><strong>Horario:</strong> Lunes a Sábado de 08h00 a 18h00</p>
+
+                            <div class="mt-3">
+                                <a href="https://www.facebook.com/profile.php?id=100078310595037" class="btn btn-primary m-1" target="_blank">
+                                    Facebook
+                                </a>
+                                <a href="https://instagram.com" class="btn btn-danger m-1" target="_blank">
+                                    Instagram
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card shadow h-100 border-0">
+                        <div class="card-body p-4">
+                            <h4 class="mb-3">Envíanos un mensaje</h4>
+
+                            <form>
+                                <div class="mb-3">
+                                    <label class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" placeholder="Ingresa tu nombre" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Correo</label>
+                                    <input type="email" class="form-control" placeholder="Ingresa tu correo" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Mensaje</label>
+                                    <textarea class="form-control" rows="4" placeholder="Escribe tu mensaje" required></textarea>
+                                </div>
+
+                                <button class="btn btn-success" type="button">
+                                    Enviar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROMOCIÓN -->
+        <aside class="alert alert-warning mt-5 text-center shadow">
+            <h4>Promoción Especial</h4>
+            <p class="mb-2">
+                Obtén un <strong>20% de descuento</strong> en compras superiores a <strong>$80</strong>.
+            </p>
+            <p class="mb-0">
+                Linda Fashion Boutique te acompaña con estilo, elegancia y atención personalizada.
+            </p>
+        </aside>
+
+    </main>
+
+    <!-- MODAL DE CONFIRMACIÓN BOOTSTRAP (REQUISITO OBLIGATORIO) -->
+    <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="tituloModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tituloModal">Confirmar Acción</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body" id="cuerpoModal">
+                    ¿Estás seguro de realizar esta acción? Esta acción no se puede deshacer.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="btnConfirmar">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
