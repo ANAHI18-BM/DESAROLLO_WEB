@@ -1,6 +1,0 @@
-{% extends 'base.html' %}
-{% block content %}
-<main class="container py-5"><div class="d-flex justify-content-between align-items-center mb-4"><div><h1>Clientes</h1><p class="text-muted">Registro real almacenado en SQLite.</p></div><a href="{{ url_for('formulario_cliente') }}" class="btn btn-success">Nuevo cliente</a></div>
-{% with mensajes=get_flashed_messages(with_categories=true) %}{% for c,m in mensajes %}<div class="alert alert-{{c}}">{{m}}</div>{% endfor %}{% endwith %}
-<div class="card shadow border-0"><div class="table-responsive"><table class="table table-hover mb-0"><thead class="table-dark"><tr><th>ID</th><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Dirección</th></tr></thead><tbody>{% for c in clientes %}<tr><td>{{c.id}}</td><td>{{c.nombre}}</td><td>{{c.correo}}</td><td>{{c.telefono}}</td><td>{{c.direccion}}</td></tr>{% else %}<tr><td colspan="5" class="text-center py-4">No hay clientes registrados.</td></tr>{% endfor %}</tbody></table></div></div></main>
-{% endblock %}
